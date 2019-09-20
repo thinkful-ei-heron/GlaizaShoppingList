@@ -1,34 +1,50 @@
-function renderShoppingList() {
-    // this function will be responsible for rendering the shopping list in
-    // the DOM
-    console.log('`renderShoppingList` ran');
+$(function(){
+
+  // listen for form submission
+  $('#js-shopping-list-form').submit( function(event) {
+
+    // stop default form submission
+    event.preventDefault();
+
+    // get text value for the new item
+    const newListItem = $('#shopping-list-entry').val();
   
-  }
-  $(renderShoppingList);
-  
-  function handleNewItemSubmit() {
-    // this function will be responsible for when users add a new shopping list item
-    console.log('`handleNewItemSubmit` ran');
-  }
-  
-  
-  function handleItemCheckClicked() {
-    // this function will be responsible for when users click the "check" button on
-    // a shopping list item.
-    console.log('`handleItemCheckClicked` ran');
-  }
-  
-  
-  function handleDeleteItemClicked() {
-    // this function will be responsible for when users want to delete a shopping list
-    // item
-    console.log('`handleDeleteItemClicked` ran')
-  }
-  
-  // this function will be our callback when the page loads. it's responsible for
-  // initially rendering the shopping list, and activating our individual functions
-  // that handle new item submission and user clicks on the "check" and "delete" buttons
-  // for individual shopping list items.
-  function handleShoppingList() {
-  
-  }
+    // add new shopping list item to `li`
+    $('.shopping-list').append(
+      `<li>
+        <span class="shopping-item">${newListItem}</span>
+        <div class="shopping-item-controls">
+          <button class="shopping-item-toggle">
+            <span class="button-label">check</span>
+          </button>
+          <button class="shopping-item-delete">
+            <span class="button-label">delete</span>
+          </button>
+        </div>
+      </li>
+      `);
+    });
+
+  // clear text input 
+  $('#shopping-list-entry').val('');
+
+  /**
+   *  Deleting shopping item
+   * this.closest will look for the closest parent `li` element and remove it.
+   */
+ 
+   $('.shopping-list').on('click', '.shopping-item-delete', function(event) {
+    $(this).closest('li').remove();
+  });
+
+  /**
+   * when a user clicks the "check" button, this will cause the checked off styling to toggle.
+   * this.closest will look for the closest parent `li` element, then find the child '.shopping-item' and toggle `.shopping-item__checked` class.
+   */
+  $('.shopping-list').on('click', '.shopping-item-toggle', function(event) {
+    $(this).closest('li').find('.shopping-item').toggleClass('shopping-item__checked');
+  });
+
+ 
+
+});
